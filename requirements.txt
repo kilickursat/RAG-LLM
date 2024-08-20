@@ -1,8 +1,8 @@
 streamlit==1.24.0
-torch==2.2.0 
+torch==2.2.0  # Updated version of torch
 transformers==4.32.0
 langchain==0.0.259
-langchain_huggingface==0.0.7
+langchain_huggingface==0.0.3  # Updated to an available version
 chromadb==0.3.25
 sentence-transformers==2.2.2
 PyPDF2==3.0.1
