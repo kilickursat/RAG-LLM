@@ -11,6 +11,7 @@ from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain_huggingface import HuggingFacePipeline
+from huggingface_hub import login
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -109,30 +110,39 @@ class GeotechnicalRAG:
 # Streamlit Interface
 st.title("Geotechnical RAG System")
 
-# Directory to save uploaded documents
-upload_dir = "uploaded_docs"
-if not os.path.exists(upload_dir):
-    os.makedirs(upload_dir)
+# API Key Input
+api_key = st.text_input("Enter your Hugging Face API Key:", type="password")
 
-# File uploader
-uploaded_files = st.file_uploader("Upload PDF documents", type="pdf", accept_multiple_files=True)
+if api_key:
+    login(api_key)  # Authenticate with the provided API key
+    st.success("API Key authenticated successfully!")
 
-if uploaded_files:
-    # Save uploaded files
-    for uploaded_file in uploaded_files:
-        file_path = os.path.join(upload_dir, uploaded_file.name)
-        with open(file_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-    st.success("Files uploaded successfully!")
+    # Directory to save uploaded documents
+    upload_dir = "uploaded_docs"
+    if not os.path.exists(upload_dir):
+        os.makedirs(upload_dir)
 
-    # Initialize the RAG system and process documents
-    rag_system = GeotechnicalRAG(persist_directory="db")
-    rag_system.load_and_process_documents(upload_dir)
-    rag_system.setup_qa_chain()
+    # File uploader
+    uploaded_files = st.file_uploader("Upload PDF documents", type="pdf", accept_multiple_files=True)
 
-    # Query input
-    user_query = st.text_input("Enter your geotechnical query:")
+    if uploaded_files:
+        # Save uploaded files
+        for uploaded_file in uploaded_files:
+            file_path = os.path.join(upload_dir, uploaded_file.name)
+            with open(file_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+        st.success("Files uploaded successfully!")
 
-    if user_query:
-        response = rag_system.query(user_query)
-        st.write(f"Summary: {response}")
+        # Initialize the RAG system and process documents
+        rag_system = GeotechnicalRAG(persist_directory="db")
+        rag_system.load_and_process_documents(upload_dir)
+        rag_system.setup_qa_chain()
+
+        # Query input
+        user_query = st.text_input("Enter your geotechnical query:")
+
+        if user_query:
+            response = rag_system.query(user_query)
+            st.write(f"Summary: {response}")
+else:
+    st.warning("Please enter your Hugging Face API Key to proceed.")
