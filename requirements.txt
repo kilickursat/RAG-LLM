@@ -7,3 +7,4 @@ chromadb
 sentence-transformers
 PyPDF2
 huggingface_hub
+langchain-community
