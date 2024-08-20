@@ -4,6 +4,6 @@ transformers==4.32.0
 langchain==0.0.259
 langchain_huggingface==0.0.3  # Compatible with updated huggingface_hub
 chromadb==0.3.25
-sentence-transformers==2.2.2
+sentence-transformers==2.6.0
 PyPDF2==3.0.1
 huggingface_hub==0.23.0  # Updated to match langchain-huggingface requirements
