@@ -1,3 +1,4 @@
+Python == 3.10
 streamlit==1.37.1
 torch
 transformers
@@ -9,4 +10,4 @@ chromadb
 sentence-transformers
 pypdf
 protobuf==3.20.0
-pysqlite3-binary
+
