@@ -1,4 +1,4 @@
-Python == 3.10
+Python == 3.10.0
 streamlit==1.37.1
 torch
 transformers
